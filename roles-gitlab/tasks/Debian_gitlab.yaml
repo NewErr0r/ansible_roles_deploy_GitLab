@@ -1,0 +1,35 @@
+---
+- name: Update the apt package index
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Install packages
+  apt:
+    name: "{{ packages }}"
+    state: latest 
+
+- name: Running the gitlab-ce script
+  script: script.deb.sh
+
+- name: Install "GitLab-ce"
+  apt:
+    name: gitlab-ce 
+    state: latest
+
+- name: Configurations Web-Interface
+  template: 
+    src: gitlab.rb.j2
+    dest: "{{ configure_web_interface }}" 
+
+- name: Reconfigure GitLab 
+  shell: gitlab-ctl reconfigure 
+
+- name: Check password for "root" in out Web-Interface
+  command: bash -c "cat /etc/gitlab/initial_root_password | head -n7 | tail -n1"
+  register: password
+
+- debug: 
+    var: password.stdout_lines

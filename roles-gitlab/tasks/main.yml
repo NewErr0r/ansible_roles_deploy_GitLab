@@ -1,39 +1,11 @@
 ---
-- name: Permissions for Firewalld
-  firewalld:
-    service: "{{ item }}" 
-    permanent: yes
-    state: enabled 
-  loop:
-    - http
-    - https
-  notify: Restart Firewalld
+- name: Deploy GitLab on CentOS
+  include_tasks: Centos_gitlab.yaml
+  when:
+    - ansible_os_family == "RedHat"
 
-- name: Install packages
-  dnf:
-    name: "{{ packages_install }}"
-    state: latest
-
-- name: Running the gitlab-ce script
-  script: script.rpm.sh
-
-- name: Install "GitLab-ce"
-  dnf:
-    name: gitlab-ce 
-    state: latest
-
-- name: Configurations Web-Interface
-  template: 
-    src: gitlab.rb.j2
-    dest: "{{ configure_web_interface }}" 
-
-- name: Reconfigure GitLab 
-  shell: gitlab-ctl reconfigure 
-
-- name: Check password for "root" in out Web-Interface
-  command: bash -c "cat /etc/gitlab/initial_root_password | head -n7 | tail -n1"
-  register: password
-
-- debug: 
-    var: password.stdout_lines
+- name: Deploy GitLab on Debian
+  include_tasks: Debian_gitlab.yaml
+  when:
+    - ansible_os_family == "Debian"
 
