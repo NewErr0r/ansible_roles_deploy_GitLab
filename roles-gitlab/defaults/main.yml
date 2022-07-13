@@ -1,0 +1,6 @@
+---
+packages_install: 
+  - curl
+  - policycoreutils
+
+external_url: "http://{{ ansible_ssh_host }}"

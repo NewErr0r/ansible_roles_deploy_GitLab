@@ -1,0 +1,6 @@
+Для смены пароля root:
+#gitlab-rails console -e production
+>user = User.where(id: 1).first
+>user.password = 'password123'
+>user.password_confirmation = 'password123'
+>user.save!
