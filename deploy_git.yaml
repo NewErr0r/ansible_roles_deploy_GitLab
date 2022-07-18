@@ -1,7 +1,8 @@
 ---
 - name: Deploy GitLab
-  hosts: git 
+  hosts: all
   become: true 
 
   roles:
-    - roles-gitlab
+#    - roles-gitlab
+#    - gitlab_ubuntu

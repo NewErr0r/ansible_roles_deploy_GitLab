@@ -1,6 +1,17 @@
+1. Запуск ролей:
+
+Для запуска установки GitLab на CentOS/Debian в файле "deploy_git.yaml" раскомментировать:
+#    - roles-gitlab 
+
+Для запуска установки GitLab на Ubuntu в файле "deploy_git.yaml" раскомментировать:
+#    - gitlab_ubuntu
+
+
+_______________________________________________________________
 Для смены пароля root:
 #gitlab-rails console -e production
 >user = User.where(id: 1).first
 >user.password = 'password123'
 >user.password_confirmation = 'password123'
 >user.save!
+_______________________________________________________________
